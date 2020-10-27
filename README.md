@@ -1,18 +1,4 @@
-# vs-code-bpmn-io
-
-![GitHub package.json version](https://img.shields.io/github/package-json/v/bpmn-io/vs-code-bpmn-io) ![vs-code-support](https://img.shields.io/badge/Visual%20Studio%20Code-1.38.0+-blue.svg) [![Build Status](https://travis-ci.com/bpmn-io/vs-code-bpmn-io.svg?branch=master)](https://travis-ci.com/bpmn-io/vs-code-bpmn-io)
-
-Display and edit BPMN diagrams in VS Code using [bpmn.io](https://bpmn.io/) tools.
-
-## Features
-
-* Open BPMN 2.0 (`.bpmn`) in a Modeler to make changes to your diagrams
-  * From the editor toolbar
-  * Via the command palette ("Open BPMN Modeler")
-  * Via keyboard shortcut (`CTRL/CMD + SHIFT + V`)
-* Save changes to your local file
-
-![alt](./resources/screencast_preview.gif?raw=true)
+# vs-code-magnetron-bpmn
 
 ## How to get it
 
