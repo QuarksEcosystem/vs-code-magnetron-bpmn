@@ -83,13 +83,14 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "run-s compile:clean compile:ts compile:assets",
-    "compile:ts": "tsc -p ./",
-    "compile:clean": "shx rm -rf out",
-    "compile:assets": "shx cp -r src/assets out",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile",
+    "vscode:prepublish": "npm run build",
+    "build": "run-s build:clean build:ts build:assets",
+    "build:ts": "webpack --mode production",
+    "build:clean": "rm -rf out",
+    "build:assets": "cp -r src/assets out && cp node_modules/bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css out/assets",
+    "watch": "run-s build:clean watch:ts build:assets",
+    "watch:ts": "webpack --mode development",
+    "pretest": "npm run build",
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
@@ -98,24 +99,26 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
     "@types/shelljs": "^0.8.6",
-    "@types/sinon": "^9.0.4",
-    "@types/sinon-chai": "^3.2.4",
     "@types/vscode": "^1.38.0",
     "chai": "^4.2.0",
     "glob": "^7.1.6",
-    "mocha": "^7.1.2",
+    "mocha": "^6.2.2",
     "npm-run-all": "^4.1.5",
     "shelljs": "^0.8.3",
-    "shx": "^0.3.2",
-    "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
+    "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^3.7.2",
-    "vscode-test": "^1.2.3"
+    "vsce": "^1.74.0",
+    "vscode-test": "^1.2.3",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "bpmn-js": "^7.0.0"
+    "bpmn-js": "^7.2.0",
+    "bpmn-js-properties-panel": "^0.33.1",
+    "bpmn-moddle": "^6.0.2",
+    "camunda-bpmn-moddle": "^4.4.0"
   }
 }

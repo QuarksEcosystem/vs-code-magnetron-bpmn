@@ -1,4 +1,7 @@
 'use strict';
+const CamundaModdleDescriptor = require('camunda-bpmn-moddle/resources/camunda.json');
+const processTemplate = require('./processTemplate.json');
+
 export class BpmnModelerBuilder {
   contents: string;
   resources: any;
@@ -24,12 +27,15 @@ export class BpmnModelerBuilder {
 
           <!-- modeler distro -->
           <script src="${this.resources.modelerDistro}"></script>
+          <script src="${this.resources.propertyPanel}"></script>
+          <script src="${this.resources.propertyProvider}"></script>
 
           <!-- required modeler styles -->
           <link rel="stylesheet" href="${this.resources.diagramStyles}">
           <link rel="stylesheet" href="${this.resources.bpmnFont}">
 
           <link rel="stylesheet" href="${this.resources.modelerStyles}">
+          <link rel="stylesheet" href="${this.resources.propertyStyles}">
 
           <style>
             /*
@@ -46,6 +52,7 @@ export class BpmnModelerBuilder {
       <body>
         <div class="content">
           <div id="canvas"></div>
+          <div id="properties"></div>
         </div>
 
         <div class="buttons">
@@ -71,7 +78,18 @@ export class BpmnModelerBuilder {
           // (3) bootstrap modeler instance
           const bpmnModeler = new BpmnJS({
             container: '#canvas',
-            keyboard: { bindTo: document }
+            keyboard: { bindTo: document },
+            additionalModules: [
+              PropertyPanel,
+              PropertyProvider
+            ],
+            propertiesPanel: {
+              parent: '#properties'
+            },
+            elementTemplates: ${JSON.stringify(processTemplate)},
+            moddleExtensions: {
+              camunda: ${JSON.stringify(CamundaModdleDescriptor)}
+            }
           });
 
           keyboardBindings();
@@ -143,6 +161,8 @@ export class BpmnModelerBuilder {
 
     const tail = ['</html>'].join('\n');
 
-    return head + body + tail;
+    const final = head + body + tail;
+
+    return final;
   }
 }

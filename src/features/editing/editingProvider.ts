@@ -23,10 +23,13 @@ export class EditingProvider {
     const contents = fs.readFileSync(localDocumentPath, { encoding: 'utf8' });
 
     const builder = new BpmnModelerBuilder(contents, {
+      propertyPanel: this.getUri(webview, 'out', 'propertyPanel.js'),
+      propertyProvider: this.getUri(webview, 'out', 'propertyProvider.js'),
       modelerDistro: this.getUri(webview, 'node_modules', 'bpmn-js', 'dist', 'bpmn-modeler.development.js'),
       diagramStyles: this.getUri(webview, 'node_modules', 'bpmn-js', 'dist', 'assets', 'diagram-js.css'),
       bpmnFont: this.getUri(webview, 'node_modules', 'bpmn-js', 'dist', 'assets', 'bpmn-font', 'css', 'bpmn.css'),
       modelerStyles: this.getUri(webview, 'out', 'assets', 'modeler.css'),
+      propertyStyles: this.getUri(webview, 'out', 'assets', 'bpmn-js-properties-panel.css'),
       resourceUri: localResource
     });
 
