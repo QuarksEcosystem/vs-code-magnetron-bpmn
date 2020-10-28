@@ -3,7 +3,7 @@
   "displayName": "vs-code-magnetron-bpmn",
   "description": "VS Code Extension for Displaying and Editing BPMN Features Files",
   "license": "MIT",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "publisher": "QuarksEcosystem",
   "repository": "https://github.com/QuarksEcosystem/vs-code-magnetron-bpmn",
   "engines": {
