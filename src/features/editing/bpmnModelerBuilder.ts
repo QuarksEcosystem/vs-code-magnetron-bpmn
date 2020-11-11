@@ -1,4 +1,5 @@
 'use strict';
+
 const CamundaModdleDescriptor = require('camunda-bpmn-moddle/resources/camunda.json');
 const processTemplate = require('./processTemplate.json');
 
@@ -115,15 +116,16 @@ export class BpmnModelerBuilder {
 
           async function saveDiagramChanges() {
             try {
-              const {
-                xml
-              } = await bpmnModeler.saveXML({ format: true });
+              return bpmnModeler.saveXML({ format: true }, (err, xml) => {
+                console.log(xml);
 
-              return vscode.postMessage({
-                command: 'saveContent',
-                content: xml
+                vscode.postMessage({
+                  command: 'saveContent',
+                  content: xml
+                });
               });
             } catch (err) {
+
               return console.error('could not save BPMN 2.0 diagram', err);
             }
           }
