@@ -24,7 +24,7 @@ export class BpmnModelerBuilder {
         <head>
           <meta charset="UTF-8" />
 
-          <title>BPMN Modeler</title>
+          <title>Magnetron Feature Modeler</title>
 
           <!-- modeler distro -->
           <script src="${this.resources.modelerDistro}"></script>
@@ -102,39 +102,36 @@ export class BpmnModelerBuilder {
            */
           async function openDiagram(bpmnXML) {
 
-            // import diagram
-            try {
-              await bpmnModeler.importXML(bpmnXML);
-            } catch (err) {
-              const {
-                warnings
-              } = err;
+            bpmnModeler.importXML(bpmnXML, function(err) {
+              if (err) {
+                console.log('could not import BPMN 2.0 diagram', err, warning);
+              } else {
+                const canvas = bpmnModeler.get('canvas');
+                canvas.zoom('fit-viewport');
 
-              return console.error('could not import BPMN 2.0 diagram', err, warning);
-            }
+                listenChanges();
+              }
+            });
           }
 
-          async function saveDiagramChanges() {
+          function saveDiagramChanges() {
             try {
               return bpmnModeler.saveXML({ format: true }, (err, xml) => {
-                console.log(xml);
-
                 vscode.postMessage({
                   command: 'saveContent',
                   content: xml
                 });
               });
             } catch (err) {
-
-              return console.error('could not save BPMN 2.0 diagram', err);
+              console.error('could not save BPMN 2.0 diagram', err);
             }
           }
 
-          async function saveChanges() {
+          function saveChanges() {
             const spinner = document.getElementsByClassName("spinner")[0];
             spinner.classList.add("active");
 
-            await saveDiagramChanges()
+            saveDiagramChanges();
 
             setTimeout(function() {
               spinner.classList.remove("active");
@@ -152,6 +149,16 @@ export class BpmnModelerBuilder {
                 saveChanges();
                 return true;
               }
+            });
+          }
+
+          function listenChanges() {
+            const eventBus = bpmnModeler.get('eventBus');
+            eventBus.on('commandStack.changed', function() {
+              vscode.postMessage({
+                command: 'contentChanged',
+                content: ''
+              });
             });
           }
 
